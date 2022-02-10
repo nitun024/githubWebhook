@@ -52,7 +52,9 @@ lt --port 80
 - would be great
 
 > ### **Note**
-> You'd need to create and store the github access token in the data.ini file in order to successfully reject the PR
+> You'd need to create and store the github access token in the data.ini file in order to successfully reject the PR.
+> 
+> Please follow this [link](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create the access token with scope `public_repo` 
 
 
 ##### Owner
