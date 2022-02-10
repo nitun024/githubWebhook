@@ -2,6 +2,7 @@ from flask import Flask, request, json
 from configparser import ConfigParser
 import json
 import requests
+from requests.auth import HTTPBasicAuth
 
 app = Flask(__name__)
 
@@ -15,20 +16,29 @@ def is_pr_valid(pr_description):
 
 
 # Function to reject/close PR
-def reject_pr(owner_name, repo_name, pr_number, access_key):
+def reject_pr(owner_name, repo_name, pr_number):
+
+    # Fetch username and access token from data.ini
+    configure = ConfigParser()
+    configure.read('data.ini')
+    access_token = configure.get('data', 'access_token')
+    username = configure.get('data', 'username')
+
     url = "https://api.github.com/repos/" + owner_name + "/" + repo_name + "/pulls/" + pr_number
 
     payload = json.dumps({
         "state": "closed"
     })
     headers = {
-        'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'Basic ' + access_key,
         'Content-Type': 'application/json'
     }
-    response = requests.request("PATCH", url, headers=headers, data=payload)
-    assert response.status_code == 200
-    print('PR is rejected and closed')
+    try:
+        response = requests.patch(url, headers=headers, data=payload, auth = HTTPBasicAuth(username, access_token))
+        assert response.status_code == 200
+        print('PR is rejected and closed')
+    except Exception as e:
+        print('Exception happened: ' + str(e))
+
 
 
 @app.route('/')
@@ -56,14 +66,9 @@ def hook_root():
     owner_name = str(response['repository']['owner']['login'])
     pr_number = str(response['pull_request']['number'])
 
-    # Fetch token from data.ini
-    configure = ConfigParser()
-    configure.read('data.ini')
-    access_key = configure.get('data', 'access_token')
-
     # Reject the PR if is_valid is false
     if str(is_valid).lower() == "false":
-        reject_pr(owner_name, repo_name, pr_number, access_key)
+        reject_pr(owner_name, repo_name, pr_number)
         return 'success', 200
 
     print('PR will be reviewed soon !!')
