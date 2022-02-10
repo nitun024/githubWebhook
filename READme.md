@@ -2,14 +2,15 @@
 
 - It is a form of automation for a GitHub project that will prevent
 merging impolite pull requests
-- The impolite pull request can be detected as the one that has no “please”, “appreciate”,
+- The impolite pull request can be detected as the one that has no "pls", "plz", “please”, “appreciate”,
 “would be great” phrases in the description
 
 #### _Requirements_ 
  - `npm` should be installed 
  - Latest code from the `master` branch is available at your machine
+ - Create a github access token by following this [link](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with scope `public_repo` and use it as access_token in data.ini file.
 
-#### _Prerequisites_
+## _How to integrate_
 
 Follow the steps in order to run the webhook server
 
@@ -39,23 +40,18 @@ python3 app.py
 lt --port 80
 ```
 
-5. Add the webhook to github repository by following [these](https://hookdeck.com/guides/platforms/post/getting-started-github-webhooks#what-are-github-webhooks) instruction with:
-- `application/json` for the “Content type” dropdown
-- `Pull requests` for "Which events would you like to trigger this webhook?"
+5. Add the webhook to github repository by following [these](https://hookdeck.com/guides/platforms/post/getting-started-github-webhooks#what-are-github-webhooks) instructions with values:
+- `Content type` > "application/json"
+- `Which events would you like to trigger this webhook?` > "Pull requests"
+- `Payload URL` > public url generated in step #4
 
-6. Now raise a PR in the same repository and if the description doesn't contain any of the polite words mentioned below then the PR will be rejected/closed:
+6. Now you're done. To test it raise a PR in the same repository and if the description doesn't contain any of the polite words mentioned below then the PR will be rejected/closed:
 
 - plz
 - pls
 - please
 - appreciate
 - would be great
-
-> ### **Note**
-> You'd need to create and store the github access token in the data.ini file in order to successfully reject the PR.
-> 
-> Please follow this [link](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create the access token with scope `public_repo` 
-
 
 ##### Owner
 **Nitun Pachauri**
