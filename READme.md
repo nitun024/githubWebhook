@@ -1,8 +1,9 @@
 ## GithubWebhook 
 
-- It calculates arithmetic expressions and returns the result in the response
-- Handles the basic operations, +, -, * and /
-- Works with parenthesis in the expression
+- It is a form of automation for a GitHub project that will prevent
+merging impolite pull requests
+- The impolite pull request can be detected as the one that has no “please”, “appreciate”,
+“would be great” phrases in the description
 
 #### _Requirements_ 
  - `npm` should be installed 
@@ -51,7 +52,7 @@ lt --port 80
 - would be great
 
 > ### **Note**
-> You'd need to create and store the github access token in the .cfg file in order to successfully reject the PR
+> You'd need to create and store the github access token in the data.ini file in order to successfully reject the PR
 
 
 ##### Owner
